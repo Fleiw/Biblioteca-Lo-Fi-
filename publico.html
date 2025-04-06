@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Pública - Lo-Fi</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzB1mb3W98_-1tRxLEE2UH12xoOOyj-b0",
+      authDomain: "biblioteca-lo-fi.firebaseapp.com",
+      projectId: "biblioteca-lo-fi",
+      storageBucket: "biblioteca-lo-fi.firebasestorage.app",
+      messagingSenderId: "975608616291",
+      appId: "1:975608616291:web:1f664088f2550e11672f56"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const livrosList = document.getElementById("livrosList");
+
+    async function carregarLivros() {
+      const querySnapshot = await getDocs(collection(db, "livros"));
+      querySnapshot.forEach((doc) => {
+        const livro = doc.data();
+        const item = document.createElement("div");
+        item.innerHTML = `
+          <h3>${livro.titulo}</h3>
+          <p>${livro.descricao}</p>
+          <a href="${livro.link}" target="_blank">Ler/Download</a>
+          <hr>
+        `;
+        livrosList.appendChild(item);
+      });
+    }
+
+    carregarLivros();
+  </script>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background-color: #f9f5ed;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    #livrosList div {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Biblioteca Lo-Fi</h1>
+    <div id="livrosList"></div>
+  </div>
+</body>
+</html>

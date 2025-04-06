@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Biblioteca Lo-Fi</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzB1mb3W98_-1tRxLEE2UH12xoOOyj-b0",
+      authDomain: "biblioteca-lo-fi.firebaseapp.com",
+      projectId: "biblioteca-lo-fi",
+      storageBucket: "biblioteca-lo-fi.firebasestorage.app",
+      messagingSenderId: "975608616291",
+      appId: "1:975608616291:web:1f664088f2550e11672f56"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      signInWithEmailAndPassword(auth, email, senha)
+        .then(() => window.location.href = "painel.html")
+        .catch(error => alert("Erro ao fazer login: " + error.message));
+    });
+
+    document.getElementById("cadastroBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      createUserWithEmailAndPassword(auth, email, senha)
+        .then(() => alert("Cadastro realizado com sucesso!"))
+        .catch(error => alert("Erro ao cadastrar: " + error.message));
+    });
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3e9d2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #fff8e7;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Biblioteca Lo-Fi</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <button id="cadastroBtn">Cadastrar</button>
+  </div>
+</body>
+</html>
